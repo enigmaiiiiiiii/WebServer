@@ -120,9 +120,7 @@ bool HttpConn::process() {
   iov_[0].iov_base = const_cast<char *>(writeBuff_.Peek());
   iov_[0].iov_len = writeBuff_.ReadableBytes();  // 写位置(writePos_.) - 读位置(readPos_)
   iovCnt_ = 1;
-  /*
-   * 将响应头加入,iov[0]
-   */
+  /* 将响应头加入,iov[0] */
 
   /* 文件 */
   if (response_.FileLen() > 0 && response_.File()) {

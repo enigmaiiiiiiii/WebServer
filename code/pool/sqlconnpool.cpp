@@ -18,8 +18,9 @@ SqlConnPool *SqlConnPool::Instance() {
   return &connPool;
 }
 
-void SqlConnPool::Init(const char *host, int port,  // 服务器ip, 服务器端口
-					   const char *user, const char *pwd, const char *dbName,
+void SqlConnPool::Init(const char *host, int port,  // 服务器ip, 服务器的sql端口
+					   const char *user, const char *pwd, // mysqlserver用户名,密码
+					   const char *dbName, // 仓库名称
 					   int connSize = 10) {
   assert(connSize > 0);  // sql链接池, 实现链接重用
   for (int i = 0; i < connSize; i++) {
@@ -35,9 +36,9 @@ void SqlConnPool::Init(const char *host, int port,  // 服务器ip, 服务器端
 	if (!sql) {
 	  LOG_ERROR("MySql Connect error!");
 	}
-	connQue_.push(sql);
+	connQue_.push(sql);  // 创建connSize个MYSQL*对象,加入队列
   }
-  MAX_CONN_ = connSize;
+  MAX_CONN_ = connSize;  // 限制最大连接数
   sem_init(&semId_, 0, MAX_CONN_);  // 创建匿名信号量
   // MAX_CONN_作为信号量的初始值，用来限制最大连接数
 }
@@ -50,8 +51,8 @@ MYSQL *SqlConnPool::GetConn() {
   }
   sem_wait(&semId_);
   /*
-   * 信号量上锁, 信号量值减一
-   * 最大连接数 -1
+   * 信号量上锁, 信号量值-1
+   * 连接数+1
    * 信号量值为0时阻塞
    */
   {
@@ -65,7 +66,7 @@ MYSQL *SqlConnPool::GetConn() {
 void SqlConnPool::FreeConn(MYSQL *sql) {
   assert(sql);
   lock_guard<mutex> locker(mtx_);
-  connQue_.push(sql);  //
+  connQue_.push(sql);
   sem_post(&semId_);  // 信号量值加1
 }
 

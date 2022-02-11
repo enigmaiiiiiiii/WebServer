@@ -131,11 +131,10 @@ void HttpResponse::AddContent_(Buffer &buff) {
 	ErrorContent(buff, "File NotFound!");
 	return;
   }
-
   /* 将文件映射到内存提高文件的访问速度
 	  MAP_PRIVATE 建立一个写入时拷贝的私有映射*/
   LOG_DEBUG("file path %s", (srcDir_ + path_).data());
-  int *mmRet = (int *)mmap(0, mmFileStat_.st_size, PROT_READ, MAP_PRIVATE, srcFd, 0);
+  int *mmRet = (int *)mmap(0, mmFileStat_.st_size, PROT_READ, MAP_PRIVATE, srcFd, 0);  // 本身返回void*
   if (*mmRet==-1) {
 	ErrorContent(buff, "File NotFound!");
 	return;
@@ -154,6 +153,7 @@ void HttpResponse::UnmapFile() {
 }
 
 string HttpResponse::GetFileType_() {
+  // 生成Content-type报文段
   string::size_type idx = path_.find_last_of('.');
   /* 判断文件类型
     idx值path_最后一个.符号的位置 */

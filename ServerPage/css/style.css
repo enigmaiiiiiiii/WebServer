@@ -1,0 +1,123 @@
+body {
+    font-family: "Raleway", sans-serif;
+}
+
+#container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding-top: 20px;
+    position: relative;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 900;
+    color: #333;
+    width: 100%;
+    line-height: 1.5em;
+    border-bottom: 1px solid #333;
+}
+
+#maze {
+    margin-top: 40px;
+    width: 74%;
+    position: relative;
+}
+
+#maze canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transition: opacity 200ms linear;
+    opacity: 1;
+}
+
+#maze canvas.hide {
+    opacity: 0;
+}
+
+.controls {
+    margin: 20px 0;
+}
+
+.controls .button {
+    margin-right: 15px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 12px 18px;
+    background: rgb(95, 95, 95);
+    opacity: 1;
+    color: white;
+    border-radius: 4px;
+    -webkit-transition: opacity 200ms linear;
+}
+
+.controls .button:hover {
+    opacity: 0.85;
+}
+
+.stats {
+    position: absolute;
+    right: 0;
+    padding-top: 10px;
+    width: 25%;
+    height: 380px;
+}
+
+.messages {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.messages span {
+    display: block;
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.loading h2 {
+    text-align: center;
+    font-size: 24px;
+    margin: 20px;
+}
+
+.loading .progress-container {
+    margin-top: 50px;
+    background-color: #ddd;
+    height: 3px;
+    width: 60%;
+    margin: auto;
+}
+
+.progress-container .progress {
+    width: 0;
+    height: 100%;
+    background-color: #666;
+    -webkit-transition: width 300ms ease;
+}
+
+#analyzer {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    top: 400px;
+    position: relative;
+}
+
+.info_container h1 {
+    text-align: left;
+    color: #fdfdfd;
+    margin-bottom: 1em;
+    border-bottom-color: #fdfdfd;
+}
+
+.info_container p {
+    margin: 1em 0;
+}
+
+.info_container pre {
+    background-color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+}

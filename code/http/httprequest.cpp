@@ -178,8 +178,10 @@ bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin
   if (name=="" || pwd=="") { return false; }
   LOG_INFO("Verify name:%s pwd:%s", name.c_str(), pwd.c_str());
   MYSQL *sql;
-  SqlConnRAII(&sql, SqlConnPool::Instance());  // 参数: MYSQL*, SqlConnPool对象(单例模式创建)
-  assert(sql);  // 在WSL中运行服务器, 出错
+  SqlConnRAII(&sql, SqlConnPool::Instance());
+  /* 相当于从SqlConnPool队列中获取MYSQL*对象
+     参数: MYSQL**, SqlConnPool(musql连接池)对象(单例模式创建) */
+  assert(sql);  //
 
   bool flag = false;
   unsigned int j = 0;
@@ -194,7 +196,9 @@ bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin
 		   name.c_str());
   LOG_DEBUG("%s", order);
 
-  if (mysql_query(sql, order)) {  // mysql_query()成功调用返回0
+  if (mysql_query(sql, order)) {
+	/* MYSQL*对象sql, 调用mysql查询语句
+	   mysql_query()成功调用返回0 */
 	mysql_free_result(res);
 	return false;
   }
@@ -203,12 +207,10 @@ bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin
   fields = mysql_fetch_fields(res);
 
   while (MYSQL_ROW row = mysql_fetch_row(res)) {
-	/*
-	 * while循环被执行说明查找到用户名
-	 * mysql_fetch_row同步函数
-	 * mysql_fetch_row_nonblock异步
-	 * 返回MYSQL_RES的下一行，MYSQL_ROW对象
-	 */
+	/* while循环被执行说明查找到用户名
+	   mysql_fetch_row是一个同步函数
+	   mysql_fetch_row_nonblock异步
+	   返回MYSQL_RES的下一行，MYSQL_ROW对象 */
 	LOG_DEBUG("MYSQL ROW: %s %s", row[0], row[1]);
 	string password(row[1]);
 	if (isLogin) {
