@@ -1,40 +1,41 @@
-<section class="overlay-menu">
-    <div class="container">
-        <div class="row">
-            <div class="main-menu">
-                <ul>
-                    <li>
-                        <a href="index.html">Home - Full-width</a>
-                    </li>
-                    <li>
-                        <a href="masonry.html">Home - Masonry</a>
-                    </li>
-                    <li>
-                        <a href="grid.html">Home - Small-width</a>
-                    </li>
-                    <li>
-                        <a href="about.html">About Us</a>
-                    </li>
-                    <li>
-                        <a href="blog.html">Blog Entries</a>
-                    </li>
-                    <li>
-                        <a href="single-post.html">Single Post</a>
-                    </li>
-                </ul>
-                <p>We create awesome templates for you</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>I Want To Go To There</title>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:900,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="wrapper">
+    <div id="container">
+        <h1>I Want To Go To There</h1>
+        <div class="controls">
+            <div class="new-maze button">Generate new maze</div>
+            <div class="pause button">Start/Pause training</div>
+            <div class="new-policy button">Train new policy</div>
+            <div class="visualize-policy button">Toggle policy values</div>
+            <div class="visualize-grid button">show grid</div>
+        </div>
+        <div id="setSize">
+            <label for="gridWidth">width</label>
+            <input type="text" id="gridWidth" value=5>
+            <label for="gridHeight">height</label>
+            <input type="text" id="gridHeight" value=5>
+        </div>
+        <div class="stats">
+            <div class="messages">
+                <!--message print here -->
             </div>
         </div>
+        <div id="maze">
+            <!--canvas create here-->
+        </div>
     </div>
-</section>
-
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-
-<script src="js/vendor/bootstrap.min.js"></script>
-
-<script src="js/plugins.js"></script>
-<script src="js/main.js"></script>
-
+</div>
+<div id="analyzer">
+</div>
+<script src="js/build.js"></script>
 </body>
 </html>
