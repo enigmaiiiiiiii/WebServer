@@ -1,8 +1,3 @@
-/*
- * @Author       : mark
- * @Date         : 2020-06-16
- * @copyleft Apache 2.0
- */
 #ifndef LOG_H
 #define LOG_H
 
@@ -17,51 +12,55 @@
 #include "blockqueue.h"
 #include "../buffer/buffer.h"
 
-class Log {
+class Log
+{
  public:
-  void init(int level, const char *path = "./log",
-			const char *suffix = ".log",
-			int maxQueueCapacity = 1024);
+	void init(int level, const char* path = "./log",
+		const char* suffix = ".log",
+		int maxQueueCapacity = 1024);
 
-  static Log *Instance();
-  static void FlushLogThread();  // 调用AsyncWrite()
+	static Log* Instance();
+	static void FlushLogThread();  // 调用AsyncWrite()
 
-  void write(int level, const char *format, ...);
-  void flush();
+	void write(int level, const char* format, ...);
+	void flush();
 
-  int GetLevel();
-  void SetLevel(int level);
-  bool IsOpen() { return isOpen_; }
-
- private:
-  Log();
-  void AppendLogLevelTitle_(int level);
-  virtual ~Log();
-  void AsyncWrite_();
+	int GetLevel();
+	void SetLevel(int level);
+	bool IsOpen()
+	{
+		return isOpen_;
+	}
 
  private:
-  static const int LOG_PATH_LEN = 256;
-  static const int LOG_NAME_LEN = 256;
-  static const int MAX_LINES = 50000;
+	Log();
+	void AppendLogLevelTitle_(int level);
+	virtual ~Log();
+	void AsyncWrite_();
 
-  const char *path_;
-  const char *suffix_;
+ private:
+	static const int LOG_PATH_LEN = 256;
+	static const int LOG_NAME_LEN = 256;
+	static const int MAX_LINES = 50000;
 
-  int MAX_LINES_;
+	const char* path_;
+	const char* suffix_;
 
-  int lineCount_;
-  int toDay_;
+	int MAX_LINES_;
 
-  bool isOpen_;
+	int lineCount_;
+	int toDay_;
 
-  Buffer buff_;
-  int level_;
-  bool isAsync_;
+	bool isOpen_;
 
-  FILE *fp_;
-  std::unique_ptr<BlockDeque<std::string>> deque_;
-  std::unique_ptr<std::thread> writeThread_;
-  std::mutex mtx_;
+	Buffer buff_;
+	int level_;
+	bool isAsync_;
+
+	FILE* fp_;
+	std::unique_ptr<BlockDeque<std::string>> deque_;
+	std::unique_ptr<std::thread> writeThread_;
+	std::mutex mtx_;
 };
 
 #define LOG_BASE(level, format, ...) \
