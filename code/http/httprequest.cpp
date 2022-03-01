@@ -35,7 +35,7 @@ bool HttpRequest::parse(Buffer& buff)
 		return false;
 	}
 	/// 有限状态机
-	while (buff.ReadableBytes() && state_ != FINISH)
+	while (buff.ReadableBytes() && state_ != FINISH)  // 有可读且state_ != 0
 	{
 		const char* lineEnd = search(buff.Peek(), buff.BeginWriteConst(), CRLF, CRLF + 2);
 		// lineEnd, ForwardIt迭代器

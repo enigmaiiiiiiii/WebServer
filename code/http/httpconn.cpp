@@ -62,12 +62,12 @@ int HttpConn::GetPort() const
 
 ssize_t HttpConn::read(int* saveErrno)
 {
-// 返回可读数据长度
+    // 返回可读数据长度
 	ssize_t len = -1;
 	do
 	{
 		len = readBuff_.ReadFd(fd_, saveErrno);
-		// 读fd,拷贝到readbuff
+		// 读fd,拷贝到readBuff
 		if (len <= 0)
 		{
 			break;
@@ -78,7 +78,6 @@ ssize_t HttpConn::read(int* saveErrno)
 
 ssize_t HttpConn::write(int* saveErrno)
 {
-
 	// 向acceptfd写入数据 write iov to file
 	ssize_t len = -1;
 	do

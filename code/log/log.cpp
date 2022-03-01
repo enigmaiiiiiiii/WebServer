@@ -64,11 +64,11 @@ void Log::init(int level = 1,
 			 * 创建和打开文件指针
 			 */
 			unique_ptr<BlockDeque<std::string>> newDeque(new BlockDeque<std::string>);
-//	  deque_ = move(newDeque);
+            //	  deque_ = move(newDeque);
 			deque_.reset(newDeque.release());
 
 			std::unique_ptr<std::thread> NewThread(new thread(FlushLogThread));
-//	  writeThread_ = move(NewThread);
+			//	  writeThread_ = move(NewThread);
 			writeThread_.reset(NewThread.release());
 		}
 	}
@@ -241,7 +241,7 @@ void Log::AsyncWrite_()
 	while (deque_->pop(str))
 	{
 		lock_guard<mutex> locker(mtx_);
-		printf("%s", str.c_str());
+//		printf("%s", str.c_str());
 		fputs(str.c_str(), fp_);
 	}
 }

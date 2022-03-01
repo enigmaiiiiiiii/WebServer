@@ -129,10 +129,10 @@ void BlockDeque<T>::push_back(const T& item)
 	while (deq_.size() >= capacity_)
 	{
 		// 队列长度超过限制，阻塞等待
-		condProducer_.wait(locker);
+		condProducer_.wait(locker);  //
 	}
 	deq_.push_back(item);  // string push to deque
-	condConsumer_.notify_one();
+	condConsumer_.notify_one();  // 通知消费者
 }
 
 template<class T>

@@ -254,7 +254,7 @@ void WebServer::OnRead_(HttpConn* client)
 
 void WebServer::OnProcess(HttpConn* client)
 {
-	if (client->process())
+	if (client->process())  // 有可读返回true
 	{
 		/*
 		 * 已没有可读内容
@@ -337,7 +337,6 @@ bool WebServer::InitSocket_()
 
 	int optval = 1;
 
-	/* 端口复用 */
 	/* 只有最后一个套接字会正常接收数据。 */
 	/// 设置端口复用
 	ret = setsockopt(listenFd_, SOL_SOCKET, SO_REUSEADDR, (const void*)&optval, sizeof(int));

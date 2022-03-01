@@ -20,6 +20,7 @@ class ThreadPool
 			{  // lambda的可调用形式
 			  // 创建线程
 			  std::unique_lock<std::mutex> locker(pool->mtx);
+			  // 没有mtx加锁， 同lock_guard
 			  while (true)
 			  {
 				  if (!pool->tasks.empty())
@@ -29,10 +30,10 @@ class ThreadPool
 					   * 创建后不需要回收
 					   */
 					  auto task = std::move(pool->tasks.front());
-					  pool->tasks.pop();  // 弹出可调用类型对象
-					  locker.unlock();  // lock mtx
-					  task();  // 执行或者调用task()
-					  locker.lock();
+					  pool->tasks.pop();  // 从线程池中取出任务, 弹出可调用类型对象
+					  locker.unlock();  // 完成任务池对象的访问后解锁
+					  task();  // 执行或者调用task(),
+					  locker.lock();  //
 				  }
 				  else if (pool->isClosed) break;
 				  else pool->cond.wait(locker);
